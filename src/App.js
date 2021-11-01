@@ -1,13 +1,41 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
   
   return (
     <div className="App">
       <Counter></Counter>
+      <ExternalUsers></ExternalUsers>
     </div>
+  );
+}
+//user and external users in 45-8
+function ExternalUsers(){
+  const [users, setUsers] = useState([]);//data load er khetre state ke declare korsi
+  useEffect(()=>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then(data => setUsers(data))//aikane setusers dile data gulo state er modde set hoye jabe
+  },[])
+  return(
+    <div>
+      <h3>
+        External  Users
+      </h3>
+      {
+        users.map(user => <User name={user.name} email={user.email}></User>)
+      }
+    </div>
+  );
+}
+function User(props){
+  return ( 
+  <div className="product">
+    <h2>name: {props.name}</h2>
+    <p>email: {props.email}</p>
+  </div>
   );
 }
 
